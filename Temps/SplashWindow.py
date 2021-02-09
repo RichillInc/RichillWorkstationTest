@@ -1,8 +1,8 @@
 # -*- encoding: utf-8 -*-
 
 '''
-* @File    :   Portfolio.py
-* @Time    :   2021/02/09 01:35:56
+* @File    :   SplashWindow.py
+* @Time    :   2021/02/09 17:18:36
 * @Author  :   Mengsyue Amao Tsai
 * @Version :   1.0
 * @Contact :   msat1027@gmail.com
@@ -13,11 +13,13 @@
 import os
 import sys
 sys.path.append(os.getcwd())
+from PyQt5.Qt import QSplashScreen
 
-
-class Portfolio(object):
-    """ 投資組合 """
+class SplashWindow(QSplashScreen):
+    """ 啟動視窗 """
 
     def __init__(self):
-        pass
-    
+        super(SplashWindow, self).__init__()
+
+
+

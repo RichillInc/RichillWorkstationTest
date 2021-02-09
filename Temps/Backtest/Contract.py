@@ -2,7 +2,7 @@
 
 '''
 * @File    :   Contract.py
-* @Time    :   2021/02/09 01:37:00
+* @Time    :   2021/02/09 23:48:40
 * @Author  :   Mengsyue Amao Tsai
 * @Version :   1.0
 * @Contact :   msat1027@gmail.com
@@ -16,9 +16,22 @@ sys.path.append(os.getcwd())
 
 
 class Contract(object):
-    """ 商品合約 """
+    """ 合約 """
 
-    def __init__(self, symbol, name, exchange, contractType):
+    def __init__(self,
+        symbol,
+        name,
+        exchange,
+        contractType
+    ):
+        
+        """
+        Arguments:
+            symbol: str 合約代號
+            name: str 合約名稱
+            exchange: Exchange 交易所
+            contractType: ContractType 合約類型
+        """
         self.__symbol = symbol
         self.__name = name
         self.__exchange = exchange
@@ -26,9 +39,8 @@ class Contract(object):
 
 
     def getSymbol(self):
-        """ 獲取合約代號 """    
+        """ 獲取合約代號 """
         return self.__symbol
-
 
     def getName(self):
         """ 獲取合約名稱 """
@@ -40,4 +52,4 @@ class Contract(object):
 
     def getContractType(self):
         """ 獲取合約類型 """
-        return self.__contractType                          
+        return self.__contractType                    
