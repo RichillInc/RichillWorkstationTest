@@ -16,14 +16,8 @@ sys.path.append(os.getcwd())
 from Devscripts.KBarUpdatedEvent import KBarUpdatedEvent
 
 
-class MarketDataSimulator():
-    """ 模擬器 """
 
-    def startSimulation(self, strategies):
-        """ 開始模擬行情 """
-        raise NotImplemented
-
-class BacktestMarketDataSimulator(MarketDataSimulator):
+class BacktestMarketDataSimulator():
     """ 回測行情模擬器 """
 
 
