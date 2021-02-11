@@ -16,12 +16,14 @@ sys.path.append(os.getcwd())
 
 
 class TradeGateway(object):
-    """ 交易網關 """
+    """ 交易網關 
+    
+    """
 
     def __init__(self, tradeGatewayName):
         """
         Arguments:
-            tradeGatewayName: str 交易網關名稱
+            tradeGatewayName (str): 交易網關名稱
         """
         super(TradeGateway, self).__init__()
         self.__tradeGatewayName = tradeGatewayName
@@ -30,3 +32,6 @@ class TradeGateway(object):
     def getTradeGatewayName(self):
         """ 獲取交易網關名稱 """
         return self.__tradeGatewayName
+
+
+

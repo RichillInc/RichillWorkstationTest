@@ -24,18 +24,28 @@ class SinopacApi(Shioaji):
     """ 永豐金Api """
 
     def __init__(self):
-        super(SinopacApi, self).__init__()
+        super(SinopacApi, self).__init__(backend="http", simulation=False, proxies={}, currency="NTD")
+        """
+        Arguments:
+            backend (str): http 或 socket (目前只支援http) 
+            simulation (bool): 
+                - False: 真實交易, 需登入永豐金帳戶
+                - True: 模擬交易
+            proxies (dict): http代理
+                ex. {'https': 'your-proxy-url'}
+            currency (str): 預設的幣別 NTX, USX, NTD, USD, HKD, EUR, JPY, GBP    
+        """
         self.__sinopacContracts = {} # 永豐金合約
         self.__subscribedSymbols = set() # 已訂閱的合約代號
 
-    def login(self, personId, password, hashed=0, contractsTimeout=5000, contractsCallback=None):
+    def login(self, personId, password, hashed=0, contractsTimeout=5000, contractsCallback=print):
         """ 登入SinopacApi
         Arguments:
-            personId: str 身分證字號
-            password: str 登入密碼
-            hashed: int 
-            contractsTimeout: int 下載合約等待時間 0~10000毫秒
-            contractsCallback: Callable 合約回調函數
+            personId (str): 身分證字號
+            password (str): 登入密碼
+            hashed (int): 
+            contractsTimeout (int): 下載合約等待時間, 0~10000 毫秒
+            contractsCallback (Callable): 合約回調函數
         """
         try:
             super().login(personId, password, False, contractsTimeout, contractsCallback)        
@@ -146,17 +156,10 @@ class SinopacApi(Shioaji):
                 )
                 self.__sinopacContracts[symbol] = indexContract
 
-    def setQuoteCallback(self, quoteCallback):
-        """ 設置報價回調函數 
-        Arguments:
-            quoteCallback: Callable 報價回調函數
-        """
-        self.quote.set_quote_callback(quoteCallback)
-
     def subscribe(self, contract):
         """ 訂閱報價 
         Arguments:
-            contract: Contract 合約
+            contract (Contract): 合約
         """
         # TODO: 判斷是否支援交易所
         if self.isContractSubscribed(contract): # 判斷是否重複訂閱
@@ -173,7 +176,7 @@ class SinopacApi(Shioaji):
     def isContractSubscribed(self, contract):
         """ 判斷合約是否已訂閱 
         Arguments:
-            contract: Contract 合約對象
+            contract (Contract): 合約對象
         """
         if contract.getSymbol() in self.__subscribedSymbols:
             print(f"訂閱報價失敗, 重複訂閱{contract.getSymbol()}")
@@ -183,10 +186,24 @@ class SinopacApi(Shioaji):
     def getSinopacContractBySymbol(self, symbol):
         """ 獲取永豐金合約根據合約代號 
         Arguments:
-            symbol: str 合約代號
+            symbol (str): 合約代號
         """                
         sinopacContract = self.__sinopacContracts.get(symbol, None)
         if not sinopacContract:
             print("獲取合約失敗, 查無此合約. [{symbol}]")
         return sinopacContract        
+
+    def setQuoteCallback(self, quoteCallback):
+        """ 設置報價回調函數 
+        Arguments:
+            quoteCallback (Callable[[str, dict], None]): 報價回調函數
+        """
+        self.quote.set_quote_callback(quoteCallback)
+
+    def setEventCallback(self, eventCallback):
+        """ 設置事件回調函數 
+        Arguments:
+            eventCallback (Callable[[int, int, str, str], None]): 事件回調函數
+        """        
+        self.quote.set_event_callback(eventCallback)
 

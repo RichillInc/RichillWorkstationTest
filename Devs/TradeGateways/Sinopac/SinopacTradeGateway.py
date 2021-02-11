@@ -46,6 +46,22 @@ Data Classes:
     TradeAccount,
     Contract,
     Position
+
+Todos:
+    - MarketData
+        - HistoricalMarketData
+        - Snapshot
+        - ShortStockSource
+        - CreditEnquires
+
+    - TradeOrder
+        - Stock
+        - Futures and Option    
+        - IntradayOdd
+        - UpdateStatus
+    - Account
+        
+
 """
 
 class SinopacTradeGateway(TradeGateway):
@@ -58,10 +74,8 @@ class SinopacTradeGateway(TradeGateway):
 
     def connect(self):
         """ 連接永豐金API """
-        personId = "P123622990"
-        password = "among7201"
         self.__api.login(personId, password)
-        # TODO: activateCA
+        # TODO: activateCA(caPtah)
         # TODO: [optional] seelct default account
         self.__api.downloadAllContracts()                   
         self.__api.setQuoteCallback(self.publishQuote)
@@ -74,17 +88,16 @@ class SinopacTradeGateway(TradeGateway):
     def subscribe(self, contract):
         """ 訂閱合約報價 
         Arguments:
-            contract: Contract 合約對象
+            contract (Contract): 合約對象
         """
         self.__api.subscribe(contract)
-
 
     def publishQuote(self, topic, quoteData):
         """
         發布報價
         Arguments:
-            topic: str 標題
-            quoeData: dict 報價資料 
+            topic (str): 標題
+            quoeData (dict): 報價資料 
         """
         try:
             # 判斷報價類型
@@ -98,16 +111,27 @@ class SinopacTradeGateway(TradeGateway):
             print(quoteData)            
 
 
-if __name__ == '__main__':
-    from Devs.Entities.Contract import Contract    
-    gateway = SinopacTradeGateway()
-    gateway.connect()    
 
+
+
+
+
+
+
+
+if __name__ == '__main__':
+    
+    # Code for testing
+    from Devs.Entities.Contract import Contract    
+
+    gateway = SinopacTradeGateway() # create gateway
+    gateway.connect() # connect gateway    
+
+    # Create test contracts
     contract1 = Contract("2330", "台積電", "TSE", "證券", 1, 0.5)
-    contract2 = Contract("2330", "台積電", "TSE", "證券", 1, 0.5)
     contract3 = Contract("2303", "聯電", "TSE", "證券", 1, 0.5)
+    # Test for subscirbe contracts
     gateway.subscribe(contract1)
-    gateway.subscribe(contract2)
     gateway.subscribe(contract3)
 
 
