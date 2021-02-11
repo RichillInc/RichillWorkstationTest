@@ -61,10 +61,8 @@ class SinopacTradeGateway():
 
     def connect(self):
         """ 連接永豐金API """
-    
-    
+        
         self.__api.login(personId, password)
-             
         # TODO: activateCA
         # TODO: [optional] seelct default account
         # downloadAllContracts
@@ -76,7 +74,9 @@ class SinopacTradeGateway():
         # start thread
         
 
-
+    def disconnect(self):
+        """ 中斷永豐金API連線 """
+        self.__api.logout()
 
     def publishQuote(self, topic, quoteData):
         """

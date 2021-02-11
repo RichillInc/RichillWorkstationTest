@@ -25,25 +25,32 @@ class SinopacApi(Shioaji):
     def __init__(self):
         super(SinopacApi, self).__init__()
 
-
-
-    def login(self, personId, password):
+    def login(self, personId, password, hashed=0, contractsTimeout=5000, contractsCallback=None):
         """ 登入SinopacApi
         Arguments:
             personId: str 身分證字號
             password: str 登入密碼
+            hashed: int 
+            contractsTimeout: int 下載合約等待時間 0~10000毫秒
+            contractsCallback: Callable 合約回調函數
         """
         try:
-            super().login(personId, password)        
+            super().login(personId, password, False, contractsTimeout, contractsCallback)        
             print(f"SinopacApi 登入成功. [{personId}]")   
         except Exception as exception:
             print(f"SinopacApi 登入失敗. [{exception}]")
             return        
 
+    def logout(self):
+        """ 登出SinopacApi """
+        response = super().logout()
+        if response: 
+            print(f"SinpacApi 已登出")
 
     def downloadAllContracts(self):
         """ 下載所有合約 """
         allContracts = []
+        allContracts.extend(self.__downloadIndexContracts())
         allContracts.extend(self.__downloadFuturesContract())
         allContracts.extend(self.__downloadOptionContracts())
         allContracts.extend(self.__downloadSecurityContracts())
@@ -127,3 +134,24 @@ class SinopacApi(Shioaji):
                 # publishContractEvent
                 securityContracts.append(contract)          
         return securityContracts                
+
+
+    def __downloadIndexContracts(self):
+        """ 下載指數合約 """
+        indexContracts = []
+                
+        for instrument in self.Contracts.Indexs:
+            for indexContract in instrument:
+                symbol = indexContract.code 
+                name = indexContract.name 
+                exchange = "TSE"
+                contract = Contract(
+                    symbol,
+                    name,
+                    exchange,
+                    "指數",
+                    0,
+                    0
+                )
+                indexContracts.append(contract)
+        return indexContracts
