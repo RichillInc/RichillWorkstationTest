@@ -61,8 +61,8 @@ class SinopacTradeGateway():
 
     def connect(self):
         """ 連接永豐金API """
-        personId = "P123622990"
-        password = "among7201"
+    
+    
         self.__api.login(personId, password)
              
         # TODO: activateCA
