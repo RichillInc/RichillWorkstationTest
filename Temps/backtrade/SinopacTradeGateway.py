@@ -24,8 +24,6 @@ from shioaji.order import Status as SinopacOrderStatus # 永豐金委託單狀�
 from shioaji import constant as SinopacConstant # 永豐金常數
 from shioaji.account import StockAccount, FutureAccount # 永豐金股票&期貨帳戶  
 
-from Devs.Entities.Contract import Contract
-from Devs.Entities.OptionContract import OptionContract
 from Temps.backtrade.SinopacApi import SinopacApi
 
 
@@ -55,28 +53,29 @@ class SinopacTradeGateway():
 
 
     def __init__(self):
-        self.__subscribedContracts = set() # 已訂閱的合約
-        self.__downloadedContracts = {} # 下載的合約
+        self.__subscribedSymbols = set() # 已訂閱的合約
         self.__api = SinopacApi() # 永豐金API
 
     def connect(self):
         """ 連接永豐金API """
-        
+        personId = "P123622990"
+        password = "among7201"
         self.__api.login(personId, password)
         # TODO: activateCA
         # TODO: [optional] seelct default account
-        # downloadAllContracts
-        allContracts = self.__api.downloadAllContracts()
-        for contract in allContracts:
-            self.__downloadedContracts[contract.getSymbol()] = contract                         
-        
-        self.__api.quote.set_callback(self.publishQuote)
+        self.__api.downloadAllContracts()                   
+        self.__api.setQuoteCallback(self.publishQuote)
         # start thread
         
-
     def disconnect(self):
         """ 中斷永豐金API連線 """
         self.__api.logout()
+
+    def subscribe(self, contract):
+        """ 訂閱合約報價 """
+
+        self.__api.subscribe(contract)
+
 
     def publishQuote(self, topic, quoteData):
         """
@@ -94,6 +93,19 @@ class SinopacTradeGateway():
             filename = os.path.split(traceback.tb_frame.f_code.co_filename)[1]
             print(f"[{exceptionType}][{filename}][{traceback.tb_lineno}][{exception}]")
             print(quoteData)            
+
+
+if __name__ == '__main__':
+    from Devs.Entities.Contract import Contract    
+    gateway = SinopacTradeGateway()
+    gateway.connect()    
+
+    contract1 = Contract("2330", "台積電", "TSE", "證券", 1, 0.5)
+    contract2 = Contract("2330", "台積電", "TSE", "證券", 1, 0.5)
+    contract3 = Contract("2303", "聯電", "TSE", "證券", 1, 0.5)
+    gateway.subscribe(contract1)
+    gateway.subscribe(contract2)
+    gateway.subscribe(contract3)
 
 
 
