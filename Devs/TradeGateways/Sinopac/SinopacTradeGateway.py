@@ -24,8 +24,8 @@ from shioaji.order import Status as SinopacOrderStatus # 永豐金委託單狀�
 from shioaji import constant as SinopacConstant # 永豐金常數
 from shioaji.account import StockAccount, FutureAccount # 永豐金股票&期貨帳戶  
 
-from Temps.backtrade.SinopacApi import SinopacApi
-
+from Devs.Apis.SinopacApi import SinopacApi
+from Devs.TradeGateways.TradeGateway import TradeGateway
 
 """
 Required classes:
@@ -48,12 +48,12 @@ Data Classes:
     Position
 """
 
-class SinopacTradeGateway():
+class SinopacTradeGateway(TradeGateway):
     """ 永豐金交易網關 """
 
 
     def __init__(self):
-        self.__subscribedSymbols = set() # 已訂閱的合約
+        super(SinopacTradeGateway, self).__init__("Sinopac")
         self.__api = SinopacApi() # 永豐金API
 
     def connect(self):
@@ -65,15 +65,17 @@ class SinopacTradeGateway():
         # TODO: [optional] seelct default account
         self.__api.downloadAllContracts()                   
         self.__api.setQuoteCallback(self.publishQuote)
-        # start thread
+        # TODO: start thread
         
     def disconnect(self):
         """ 中斷永豐金API連線 """
         self.__api.logout()
 
     def subscribe(self, contract):
-        """ 訂閱合約報價 """
-
+        """ 訂閱合約報價 
+        Arguments:
+            contract: Contract 合約對象
+        """
         self.__api.subscribe(contract)
 
 
@@ -87,6 +89,7 @@ class SinopacTradeGateway():
         try:
             # 判斷報價類型
             quoteType = topic.split("/")[0] 
+            
 
         except Exception as exception:
             exceptionType, traceback = sys.exc_info()

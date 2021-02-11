@@ -25,9 +25,8 @@ class SinopacApi(Shioaji):
 
     def __init__(self):
         super(SinopacApi, self).__init__()
-
-        self.__sinopacContracts = {}
-        self.__subscribedSymbols = set()
+        self.__sinopacContracts = {} # 永豐金合約
+        self.__subscribedSymbols = set() # 已訂閱的合約代號
 
     def login(self, personId, password, hashed=0, contractsTimeout=5000, contractsCallback=None):
         """ 登入SinopacApi
@@ -53,18 +52,11 @@ class SinopacApi(Shioaji):
 
     def downloadAllContracts(self):
         """ 下載所有合約 """
-        # allContracts.extend(self.__downloadIndexContracts())
-        # allContracts.extend(self.__downloadFuturesContract())
-        # allContracts.extend(self.__downloadOptionContracts())
-        # allContracts.extend(self.__downloadSecurityContracts())
-        # print(f"合約下載完成. {len(allContracts)}")
-
         self.__downloadFuturesContract()
         self.__downloadOptionContracts()
         self.__downloadSecurityContracts()
         self.__downloadIndexContracts()
-        print(f"合約下載完成. {len(self.__sinopacContracts.items())}")                    
-
+        print(f"合約下載完成. {len(self.__sinopacContracts.items())}")  
 
     def __downloadFuturesContract(self):
         """ 下載期貨合約 """
@@ -115,7 +107,6 @@ class SinopacApi(Shioaji):
                 # publishContractEvent
                 self.__sinopacContracts[symbol] = optionContract
 
-
     def __downloadSecurityContracts(self):
         """ 下載證券合約 """
         for instrument in self.Contracts.Stocks:
@@ -155,6 +146,13 @@ class SinopacApi(Shioaji):
                 )
                 self.__sinopacContracts[symbol] = indexContract
 
+    def setQuoteCallback(self, quoteCallback):
+        """ 設置報價回調函數 
+        Arguments:
+            quoteCallback: Callable 報價回調函數
+        """
+        self.quote.set_quote_callback(quoteCallback)
+
     def subscribe(self, contract):
         """ 訂閱報價 
         Arguments:
@@ -169,7 +167,7 @@ class SinopacApi(Shioaji):
             self.quote.subscribe(sinopacContract, SinopacQuoteType.Tick) 
             self.quote.subscribe(sinopacContract, SinopacQuoteType.BidAsk)
             self.__subscribedSymbols.add(sinopacContract.code)
-            print(f"訂閱合約: {contract.getExchange()} - {contract.getSymbol()} {contract.getName()}")
+            print(f"訂閱報價: {contract.getExchange()} - {contract.getSymbol()} {contract.getName()}")
             return True
 
     def isContractSubscribed(self, contract):
@@ -178,10 +176,10 @@ class SinopacApi(Shioaji):
             contract: Contract 合約對象
         """
         if contract.getSymbol() in self.__subscribedSymbols:
-            print(f"訂閱失敗, 重複訂閱{contract.getSymbol()}")
+            print(f"訂閱報價失敗, 重複訂閱{contract.getSymbol()}")
             return True
         return False    
-        
+
     def getSinopacContractBySymbol(self, symbol):
         """ 獲取永豐金合約根據合約代號 
         Arguments:
@@ -191,16 +189,4 @@ class SinopacApi(Shioaji):
         if not sinopacContract:
             print("獲取合約失敗, 查無此合約. [{symbol}]")
         return sinopacContract        
-
-
-    def setQuoteCallback(self, quoteCallback):
-        """ 設置報價回調函數 
-        Arguments:
-            quoteCallback: Callable 報價回調函數
-        """
-        self.quote.set_quote_callback(quoteCallback)
-
-
-
-
 
