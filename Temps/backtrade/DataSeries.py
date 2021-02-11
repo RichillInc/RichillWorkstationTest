@@ -1,7 +1,9 @@
 
+
+
 import numpy
 
-class KBarSeries:
+class DataSeries:
     """ K棒數列 
     用於儲存K棒開高低收量數列
     """
@@ -16,6 +18,8 @@ class KBarSeries:
         
         
         if self.__isValidMaximumLength(maximumLength):
+            self.__dateArray = numpy.zeros(maximumLength, dtype='datetime64[s]')
+            self.__timeArray = numpy.zeros(maximumLength)
             self.__openArray = numpy.zeros(maximumLength)
             self.__highArray = numpy.zeros(maximumLength)
             self.__lowArray = numpy.zeros(maximumLength)
@@ -30,6 +34,9 @@ class KBarSeries:
         else:
             return True
 
+
+    def getDate(self):
+        return self.__dateArray
 
 
 
@@ -56,6 +63,8 @@ class KBarSeries:
     def addKBar(self, kBar):
         """ 新增K棒 """
         
+        self.__dateArray[:-1] = self.__dateArray[1:]
+        self.__timeArray[:-1] = self.__timeArray[1:]
         self.__openArray[:-1] = self.__openArray[1:]
         self.__highArray[:-1] = self.__highArray[1:]
         self.__lowArray[:-1] = self.__lowArray[1:]
@@ -63,6 +72,8 @@ class KBarSeries:
         self.__volumeArray[:-1] = self.__volumeArray[1:]
 
         # 新增K棒資料到數列
+        self.__dateArray[-1] = kBar.getDate()
+        # self.__timeArray[-1] = kBar.getTime()                
         self.__openArray[-1] = kBar.getOpen()
         self.__highArray[-1] = kBar.getHigh()
         self.__lowArray[-1] = kBar.getLow()
