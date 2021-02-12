@@ -2,10 +2,11 @@
 
 # RichillWorkstation
 
-## 一. 項目說明
+## 項目說明
 RichillWorkstation是集合ERP(Enterprise Resource Planning)系統與ATS(Algorithmic Trading System)系統為一體的軟體
 
-## 二. 項目目錄結構
+
+## 項目目錄結構
 
 |DirectoryName|Description|
 |:--:|:--|

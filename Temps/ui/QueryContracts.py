@@ -28,7 +28,7 @@ class QueryContract(QWidget):
         self.searchingEdit = QLineEdit()
         self.searchingEdit.setPlaceholderText("搜尋")
         self.searchingEdit.setClearButtonEnabled(True)
-        self.searchingEdit.textChanged.connect(self.onSearchingEditTextChanged)
+        # self.searchingEdit.textChanged.connect(self.onSearchingEditTextChanged)
 
         allButton = QPushButton("全部")
         stockButton = QPushButton("股票")
@@ -63,17 +63,35 @@ class QueryContract(QWidget):
         layout.addWidget(self.contractDataGrid, 2, 0, 8, 10)
 
 
-    
+        # load all contracts    
+        contracts = contractService.getAllContracts()
+        for contract in contracts:
+            self.addContractToDataGrid(contract)
 
-    def clearContracts(self):
-        self.contractDataGrid.clearContents()
+
+
+    def addContractToDataGrid(self, contract):
+        """ 新增合約到資料表 
+        Arguments:
+            contract (Contract): 合約
+        """
+        row = self.contractDataGrid.rowCount()
+        self.contractDataGrid.insertRow(row)
+
+        symbolCell = QTableWidgetItem(contract.getSymbol())
+        nameCell = QTableWidgetItem(contract.getName())
+        exchangeCell = QTableWidgetItem(contract.getExchange())
+        instrumentType = QTableWidgetItem(contract.getInstrumentType())
+
+        self.contractDataGrid.setItem(row, 0, symbolCell)
+        self.contractDataGrid.setItem(row, 1, nameCell)
+        self.contractDataGrid.setItem(row, 2, exchangeCell)
+        self.contractDataGrid.setItem(row, 3, instrumentType)
 
         
-    
-
-  
-
         
+        
+
 
 
 if __name__ == '__main__':

@@ -110,12 +110,13 @@ class SinopacTradeGateway(TradeGateway):
             print(f"[{exceptionType}][{filename}][{traceback.tb_lineno}][{exception}]")
             print(quoteData)            
 
-
-
-
-
-
-
+    def sendTradeOrder(self, contract, tradeOrder):
+        """ TODO: 送出委託單 
+        Arguments:
+            contract (Contract): 合約
+            tradeOrder (TradeOrder): 委託單
+        """
+        self.__api.sendTradeOrder(contract, tradeOrder)
 
 
 
@@ -133,6 +134,7 @@ if __name__ == '__main__':
     # Test for subscirbe contracts
     gateway.subscribe(contract1)
     gateway.subscribe(contract3)
+    
 
 
 

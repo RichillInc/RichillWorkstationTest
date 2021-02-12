@@ -15,7 +15,13 @@ import sys
 sys.path.append(os.getcwd())
 
 from shioaji import Shioaji
-from shioaji.constant import QuoteType as SinopacQuoteType
+from shioaji import Order as SinopacTraderOrder # 永豐金訂單
+from shioaji.constant import Action as SinopacAction # 買賣別
+from shioaji.constant import StockOrderType as SinopacStockTradeOrderType
+from shioaji.constant import StockPriceType as SinopacStockTradeOrderPriceType
+from shioaji.constant import FuturesOrderType as SinopacFuturesTradeOrderType 
+from shioaji.constant import FuturesPriceType as SinopacFuturesTradeOrderPriceType
+from shioaji.constant import QuoteType as SinopacQuoteType # 永豐金報價類型
 
 from Devs.Entities.Contract import Contract
 from Devs.Entities.OptionContract import OptionContract
@@ -206,4 +212,21 @@ class SinopacApi(Shioaji):
             eventCallback (Callable[[int, int, str, str], None]): 事件回調函數
         """        
         self.quote.set_event_callback(eventCallback)
+
+
+    def sendTradeOrder(self, contract, tradeOrder, timeout=5000, callback=None):
+        """ TODO: 送出委託單 
+        Arguments:
+            contract (Contract): 合約
+            tradeOrder (TradeOrder): 委託單
+            timeout (int): 等待時間 預設5000ms
+            callback (Callable[Trade], None): 回調函數
+        """
+        # TODO: 判斷是否支持該交易所, exchange = contract.getExchange()
+        # TODO: 判斷是否支持價格類型, tradeOrderPriceType = tradeOrder.getTradeOrderPriceType()
+        sinopacContract = self.getSinopacContractBySymbol(contract.getSymbol()) # 獲取永豐金合約
+        # TODO: 創建永豐金委託單
+        self.place_order(sinopacContract, sinopacTradeOrder, timeout, callback)
+        return tradeOrder.getTradeOrderId()
+
 

@@ -21,7 +21,7 @@ class User(object):
     def __init__(self, userId):
         """ 實例化方法
         Arguments:
-            userId: str 使用者代號
+            userId (str): 使用者代號
 
         """
         
