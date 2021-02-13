@@ -56,7 +56,7 @@ class OptionContract(Contract):
         return self.__strikePrice        
 
     def __str__(self):
-        return (f"Contract [symbol={self.__symbol}, name={self.__name}, exchange={self.__exchange}, instrumentType={self.__instrumentType}, " 
+        return (f"OptionContract [symbol={self.__symbol}, name={self.__name}, exchange={self.__exchange}, instrumentType={self.__instrumentType}, " 
         + f"contractSize={self.__contractSize}, priceTick={self.__priceTick}, optionType={self.__optionType}, strikePrice={self.__strikePrice}]")
         
 

@@ -82,5 +82,7 @@ class TradeOrder(object):
         """ 獲取委託單狀態 """
         return self.__tradeOrderStatus
 
-
+    def __str__(self):
+        return f"TradeOrder []"
+        
 

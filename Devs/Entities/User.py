@@ -28,6 +28,8 @@ class User(object):
         self.__userId = userId
 
 
-
+    def __str__(self):
+        return f"User [userId={self.__userId}]"
+        
 
 
