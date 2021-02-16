@@ -19,11 +19,54 @@ class KBar(object):
     """ K線 """
 
 
-    def __init__(self):
-        pass
+    def __init__(self,
+        datetime,
+        open,
+        high,
+        low,
+        close,
+    ):
+        
+        """
+        Arguments:
+            kBarInterval (KBarInterval): K線週期
+            datetime (datetime): 日期時間
+            open (float): 開盤價
+            high (float): 最高價
+            low (float): 最低價
+            close (float): 收盤價
+        """
+        self.__datetime = datetime
+        self.__open = open
+        self.__high = high 
+        self.__low = low 
+        self.__close = close 
 
+    def getDatetime(self):
+        """ 獲取時間日期 """
+        return self.__datetime
+
+    def getOpen(self):
+        """ 獲取開盤價 """
+        return self.__open
+
+    def getHigh(self):
+        """ 獲取最高價 """
+        return self.__high
+
+    def getLow(self):
+        """ 獲取最低價 """
+        return self.__low
+
+    def getClose(self):
+        """ 獲取收盤價 """
+        return self.__clseo
+                            
     def __str__(self):
-        return f"KBar []"
+        return f"KBar [kBarInterval={self.__kBarInterval}, datetime={self.__datetime}, "
+        + f"open={self.__open}, high={self.__high}, low={self.__low}, close={self.__close}]"
+        + f""
+        
 
 
 

@@ -1,8 +1,8 @@
 # -*- encoding: utf-8 -*-
 
 '''
-* @File    :   TradeOrderType.py
-* @Time    :   2021/02/13 07:46:59
+* @File    :   TradeAction.py
+* @Time    :   2021/02/16 05:23:15
 * @Author  :   Mengsyue Amao Tsai
 * @Version :   1.0
 * @Contact :   msat1027@gmail.com
@@ -13,18 +13,15 @@
 import os
 import sys
 sys.path.append(os.getcwd())
+
+
 from enum import Enum
 
-class TradeOrderType(Enum):
-    """ 委託單類型 """
+class TradeAction(Enum):
+    """ 交易動作 """
 
-    # ROD
-    # FOK
-    # IOC
-    ROD = "ROD"
-    IOC = "IOC"
-    FOK = "FOK"
-
+    BUY = "Buy"
+    SELL = "Sell"
 
 
 

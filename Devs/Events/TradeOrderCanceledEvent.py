@@ -1,8 +1,8 @@
 # -*- encoding: utf-8 -*-
 
 '''
-* @File    :   ContractService.py
-* @Time    :   2021/02/12 03:06:21
+* @File    :   TradeOrderCanceledEvent.py
+* @Time    :   2021/02/15 05:18:10
 * @Author  :   Mengsyue Amao Tsai
 * @Version :   1.0
 * @Contact :   msat1027@gmail.com
@@ -15,7 +15,7 @@ import sys
 sys.path.append(os.getcwd())
 
 
-class ContractService(object):
-    """ 合約服務 """
-
+class TradeOrderCanceledEvent(object):
+    """ 委託單取消事件 """
+    
 

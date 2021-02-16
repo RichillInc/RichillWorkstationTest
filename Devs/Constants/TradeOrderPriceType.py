@@ -19,3 +19,7 @@ class TradeOrderPriceType(Enum):
     """ 委託單價格類型 """
     # Limit
     # Market
+    LIMIT = "限價"
+    MARKET = "市價"
+    # TOUCH_LIMIT = "觸價限價"
+    # TOUCH_MARKET = "觸價市價"
