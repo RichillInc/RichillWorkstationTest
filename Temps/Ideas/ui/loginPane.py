@@ -46,6 +46,7 @@ class LoginPane(QWidget):
 
     def onLoginButtonClicked(self):
         """ 按下登入按鈕 """
+        # 接收數據
         userId = self.getUserId()
         password = self.getPassword()
         print(userId, password)
@@ -67,16 +68,20 @@ class LoginPane(QWidget):
             userId (str): 使用者代號
             password (str): 使用者密碼
         """    
-        
+        # 進行數據檢驗
         if not userId or userId.isspace():
             print("使用者代號不可為空")
             return 
+
+        # 進行業務邏輯處理: 登入流程
+        # 返回操作結果
+                    
 
         if not password or password.isspace():
             print("登入密碼不可為空")
             return
 
-            
+
 
 
 if __name__ == '__main__':

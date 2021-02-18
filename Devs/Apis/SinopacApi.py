@@ -23,8 +23,10 @@ from shioaji.constant import FuturesOrderType as SinopacFuturesTradeOrderType
 from shioaji.constant import FuturesPriceType as SinopacFuturesTradeOrderPriceType
 from shioaji.constant import QuoteType as SinopacQuoteType # 永豐金報價類型
 
+from Devs.Logging.LoggerFactory import LoggerFactory
 from Devs.Entities.Contract import Contract
 from Devs.Entities.OptionContract import OptionContract
+
 
 class SinopacApi(Shioaji):
     """ 永豐金Api """
@@ -41,6 +43,7 @@ class SinopacApi(Shioaji):
                 ex. {'https': 'your-proxy-url'}
             currency (str): 預設的幣別 NTX, USX, NTD, USD, HKD, EUR, JPY, GBP    
         """
+        self.__logger = LoggerFactory.createLogger(self.__class__.__name__)
         self.__sinopacContracts = {} # 永豐金合約
         self.__subscribedSymbols = set() # 已訂閱的合約代號
 
@@ -55,16 +58,17 @@ class SinopacApi(Shioaji):
         """
         try:
             super().login(personId, password, False, contractsTimeout, contractsCallback)        
-            print(f"SinopacApi 登入成功. [{personId}]")   
+            self.__logger.info(f"SinopacApi 登入成功. personId={personId}")
+
         except Exception as exception:
-            print(f"SinopacApi 登入失敗. [{exception}]")
+            self.__logger.error(f"SinopacApi 登入失敗. {exception}")
             return        
 
     def logout(self):
         """ 登出SinopacApi """
         response = super().logout()
         if response: 
-            print(f"SinpacApi 已登出")
+            self.__logger.info(f"SinpacApi 已登出")
 
     def downloadAllContracts(self):
         """ 下載所有合約 """
@@ -72,7 +76,7 @@ class SinopacApi(Shioaji):
         self.__downloadOptionContracts()
         self.__downloadSecurityContracts()
         self.__downloadIndexContracts()
-        print(f"合約下載完成. {len(self.__sinopacContracts.items())}")  
+        self.__logger.info(f"合約下載完成, 合約數量: {len(self.__sinopacContracts.items())}") 
 
     def __downloadFuturesContract(self):
         """ 下載期貨合約 """
@@ -176,7 +180,7 @@ class SinopacApi(Shioaji):
             self.quote.subscribe(sinopacContract, SinopacQuoteType.Tick) 
             self.quote.subscribe(sinopacContract, SinopacQuoteType.BidAsk)
             self.__subscribedSymbols.add(sinopacContract.code)
-            print(f"訂閱報價: {contract.getExchange()} - {contract.getSymbol()} {contract.getName()}")
+            self.__logger.info(f"訂閱報價: {contract.getExchange()} - {contract.getSymbol()} {contract.getName()}")
             return True
 
     def isContractSubscribed(self, contract):
@@ -185,7 +189,7 @@ class SinopacApi(Shioaji):
             contract (Contract): 合約對象
         """
         if contract.getSymbol() in self.__subscribedSymbols:
-            print(f"訂閱報價失敗, 重複訂閱{contract.getSymbol()}")
+            self.__logger.warning(f"訂閱報價失敗, 重複訂閱{contract.getSymbol()}")
             return True
         return False    
 
@@ -196,7 +200,7 @@ class SinopacApi(Shioaji):
         """                
         sinopacContract = self.__sinopacContracts.get(symbol, None)
         if not sinopacContract:
-            print("獲取合約失敗, 查無此合約. [{symbol}]")
+            self.__logger.warning("獲取合約失敗, 查無此合約. [{symbol}]")
         return sinopacContract        
 
     def setQuoteCallback(self, quoteCallback):
