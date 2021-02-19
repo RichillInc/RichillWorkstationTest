@@ -18,9 +18,31 @@ sys.path.append(os.getcwd())
 class Tick(object):
     """ 逐筆成交 """
 
-    def __init__(self):
-        pass
+    def __init__(self,
+        datetime,
+        close,
+        volume
+
+    ):
+        self.__datetime = datetime
+        self.__close = close
+        self.__volume = volume
     
+
+
+    def getDatetime(self):
+        """ 獲取時間日期 """
+        return self.__datetime
+
+    def getClose(self):
+        """ 獲取收盤價 """
+        return self.__close
+
+    def getVolume(self):
+        """ 獲取成交量 """
+        return self.__volume        
+
     def __str__(self):
-        return f"Tick []"
+        return f"Tick [datetime={self.__datetime}, close={self.__close}, volume={self.__volume}]"
+
 

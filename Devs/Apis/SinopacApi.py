@@ -200,7 +200,7 @@ class SinopacApi(Shioaji):
         """                
         sinopacContract = self.__sinopacContracts.get(symbol, None)
         if not sinopacContract:
-            self.__logger.warning("獲取合約失敗, 查無此合約. [{symbol}]")
+            self.__logger.warning(f"獲取合約失敗, 查無此合約. [{symbol}]")
         return sinopacContract        
 
     def setQuoteCallback(self, quoteCallback):
