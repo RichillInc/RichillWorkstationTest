@@ -20,8 +20,14 @@ from Devs.Entities.Item import Item
 from Devs.Services.Service import Service
 from Devs.Repositories.ItemRepository import ItemRepository
 
+from Temps.Apps.OperationResult import OperationResult
+from Temps.Apps.OperationResultType import OperationResultType
+
 class ItemService(Service):
     """ 品項服務 """
+    ITEM_ID_EXISTS = "品項代號已存在"
+    ITEM_NAME_EXISTS = "品項名稱已存在"
+
 
     def __init__(self):
         self.__logger = LoggerFactory.createLogger(self.__class__.__name__)
@@ -36,15 +42,29 @@ class ItemService(Service):
 
         if self.isItemIdExists(itemId):
             self.__logger.error("Add item failed. ItemId exists.")
-            return False
+            return OperationResult(OperationResultType.FAILED, None, ItemService.ITEM_ID_EXISTS)
+
         if self.isItemNameExists(itemName):
             self.__logger.error("Add item failed. ItemName exists.")  
-            return False
+            return OperationResult(OperationResultType.FAILED, None, ItemService.ITEM_NAME_EXISTS)
 
         item = Item(itemId, itemName)
         self.__itemRepository.insert(item)    
         self.__logger.info(f"Add item success. {item}")
-        return True        
+        return OperationResult(OperationResultType.SUCCESS, item, "")
+
+    def deleteItemByItemId(self, itemId):
+        """ 根據品項代號刪除品項
+        Arguments:
+            itemId (str): 品項代號
+        """
+        self.__itemRepository.deleteByItemId(itemId)
+        return OperationResult(OperationResultType.SUCCESS, itemId, "")
+
+    def findAllItems(self):
+        """ 查詢全部品項 """
+        items = self.__itemRepository.queryAll()
+        return OperationResult(OperationResultType.SUCCESS, items, "")                
         
     def isItemIdExists(self, itemId):
         """
@@ -67,8 +87,6 @@ class ItemService(Service):
         if item:
             return True
         return False    
-
-
 
 
 

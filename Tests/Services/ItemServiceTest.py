@@ -23,9 +23,23 @@ class ItemServiceTest(object):
         
     def addItemTest(self):
         """ 新增品項測試 """
-        itemId = "1110003"
-        itemName = "M72火箭彈"
-        self.itemService.addItem(itemId, itemName)
+        itemId = "1110004"
+        itemName = "MP5 衝鋒槍"
+        operationResult = self.itemService.addItem(itemId, itemName)
+        print(operationResult)
+
+    def findAllItemsTest(self):
+        """ 查詢所有品項測試 """
+        operationResult = self.itemService.findAllItems()
+        items = operationResult.getData()
+        for item in items:
+            print(item)
+
+    def deleteItemByIdTest(self):
+        """ 根據品項代號刪除品項測試 """
+        itemId = "1110002"
+        operationResult = self.itemService.deleteItemByItemId(itemId)
+        print(operationResult)
 
 
 if __name__ == '__main__':
@@ -33,5 +47,7 @@ if __name__ == '__main__':
     
     test = ItemServiceTest()
     test.addItemTest()
+    test.findAllItemsTest()
+    test.deleteItemByIdTest()
 
 
