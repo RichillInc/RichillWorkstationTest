@@ -29,7 +29,6 @@ class KBar(object):
         
         """
         Arguments:
-            kBarInterval (KBarInterval): K線週期
             datetime (datetime): 日期時間
             open (float): 開盤價
             high (float): 最高價
