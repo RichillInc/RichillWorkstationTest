@@ -13,7 +13,7 @@ import os
 import sys
 sys.path.append(os.getcwd())
 import mysql.connector
-from DevTools.Database.CreateTableSqls import CreateTableSqls
+from Tools.Database.CreateTableSqls import CreateTableSqls
 
 class DatabaseInitializer(object):
     """ 數據庫初始化 """

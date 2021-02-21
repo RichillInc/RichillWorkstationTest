@@ -1,29 +1,22 @@
 # -*- encoding: utf-8 -*-
 
 '''
-* @File    :   CreateTableSqls.py
-* @Time    :   2020/06/27 17:02:09
+* @File    :   Service.py
+* @Time    :   2021/02/22 01:12:27
 * @Author  :   Mengsyue Amao Tsai
 * @Version :   1.0
 * @Contact :   msat1027@gmail.com
 * @License :   (C)Copyright, Mengsyue Amao Tsai
 '''
 
-import sys
+
 import os
+import sys
 sys.path.append(os.getcwd())
 
-from Tools.Database.Sqls.Item import Item
 
+class Service(object):
+    """ 服務 """
 
-
-class CreateTableSqls(object):
     
-    SQLS = {  
-        "品項": Item,
-    }
-
-      
-
-
 

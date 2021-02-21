@@ -13,8 +13,8 @@
 import os
 import sys
 sys.path.append(os.getcwd())
-from DevTools.Database.DatabaseConfig import DatabaseConfig
-from DevTools.Database.DatabaseInitializer import DatabaseInitializer
+from Tools.Database.DatabaseConfig import DatabaseConfig
+from Tools.Database.DatabaseInitializer import DatabaseInitializer
 
 
 def initDb():
