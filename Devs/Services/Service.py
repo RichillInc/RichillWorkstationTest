@@ -13,10 +13,14 @@
 import os
 import sys
 sys.path.append(os.getcwd())
-
+from Devs.Logging.LoggerFactory import LoggerFactory
 
 class Service(object):
-    """ 服務 """
+    """ 服務基類, 所有服務類別必須繼承此類別 """
 
-    
+    def __init__(self):
+        self.__logger = LoggerFactory.createLogger(self.__class__.__name__)
 
+    def _getLogger(self):
+        """ 獲取日誌器 """
+        return self.__logger

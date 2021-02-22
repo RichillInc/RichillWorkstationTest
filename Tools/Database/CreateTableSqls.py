@@ -14,15 +14,17 @@ import os
 sys.path.append(os.getcwd())
 
 from Tools.Database.Sqls.Item import Item
-
-
+from Tools.Database.Sqls.Customer import Customer
+from Tools.Database.Sqls.Supplier import Supplier
 
 class CreateTableSqls(object):
     
     SQLS = {  
         "品項": Item,
+        "客戶": Customer,
+        "供應商": Supplier,
     }
-
+    
       
 
 

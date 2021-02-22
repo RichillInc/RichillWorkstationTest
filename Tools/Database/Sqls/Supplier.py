@@ -1,8 +1,8 @@
 # -*- encoding: utf-8 -*-
 
 '''
-* @File    :   Strategy.py
-* @Time    :   2021/02/01 22:10:02
+* @File    :   Supplier.py
+* @Time    :   2021/02/22 06:58:13
 * @Author  :   Mengsyue Amao Tsai
 * @Version :   1.0
 * @Contact :   msat1027@gmail.com
@@ -15,14 +15,12 @@ import sys
 sys.path.append(os.getcwd())
 
 
-class Strategy(object):
-    """ 策略 """
-
+class Supplier(object):
+    """ 供應商 """
     CREATE = """
-    Create Table If Not Exists Strategy (
-        StrategyId Varchar(255),
-        StrategyName Varchar(255),
-        StrategyFileName Varchar(255)
+    Create Table If Not Exists Supplier (
+        SupplierId Varchar(255),
+        SupplierName Varchar(255)
     )
     """
 

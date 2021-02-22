@@ -1,8 +1,8 @@
 # -*- encoding: utf-8 -*-
 
 '''
-* @File    :   ItemRepository.py
-* @Time    :   2021/02/22 08:00:06
+* @File    :   CustomerRepository.py
+* @Time    :   2021/02/22 07:32:06
 * @Author  :   Mengsyue Amao Tsai
 * @Version :   1.0
 * @Contact :   msat1027@gmail.com
@@ -13,30 +13,31 @@
 import os
 import sys
 sys.path.append(os.getcwd())
+from Devs.Entities.Customer import Customer
 from Devs.Repositories.Repository import Repository
-from Devs.Entities.Item import Item
 
-class ItemRepository(Repository):
-    """ 品項數據庫訪問器 """
+class CustomerRepository(Repository):
+    """ 客戶數據庫訪問器 """
 
     def __init__(self):
-        super(ItemRepository, self).__init__()
+        super(CustomerRepository, self).__init__()
 
-    def insert(self, item):
+
+    def insert(self, customer):
         """ 新增 
         Arguments:
-            item (Item): 品項
+            customer (Customer): 客戶
         """
-
-        itemId = item.getItemId()
-        itemName = item.getItemName()
+        customerId = customer.getCustomerId()
+        customerName = customer.getCustomerName()
 
         sql = f"""
-        Insert Into Item Values (
-            '{itemId}',
-            '{itemName}'
+        Insert Into Customer Values (
+            '{customerId}',
+            '{customerName}'
         )
         """
+
         connection, cursor = self._getConnection()
 
         try:
@@ -51,17 +52,15 @@ class ItemRepository(Repository):
         finally:
             self._release(connection, cursor)        
     
-    def deleteByItemId(self, itemId):
-        """ 根據品項代號刪除 
+    def deleteByCustomerId(self, customerId):
+        """ 根據客戶代號刪除 
         Arguments:
-            itemId (str): 品項代號
+            customerId (str): 客戶代號
         """
-
         sql = f"""
-        Delete From Item 
-        Where ItemId='{itemId}'
+        Delete From Customer
+        Where CustomerId='{customerId}'
         """
-
         connection, cursor = self._getConnection()
 
         try:
@@ -76,16 +75,12 @@ class ItemRepository(Repository):
         finally:
             self._release(connection, cursor)           
 
-
-
     def queryAll(self):
         """ 查詢全部 """
-        items = []
+        customers = []
 
-        sql = "Select * From Item"
-        
+        sql = "Select * From Customer"
         connection, cursor = self._getConnection()
-        
         try:
             cursor.execute(sql)
             resultSet = cursor.fetchall()
@@ -99,21 +94,18 @@ class ItemRepository(Repository):
             self._release(connection, cursor)           
 
         if resultSet:
-            for itemData in resultSet:
-                itemId = itemData[0]
-                itemName = itemData[1]
+            for customerData in resultSet:
+                customerId = customerData[0]
+                customerName = customerData[1]
 
-                item = Item(itemId, itemName)
-                items.append(item)
+                customer = Customer(customerId, customerName) # 創建客戶
+                customers.append(customer)
+        return customers
 
-        return items                
-
-
-    def queryByItemId(self, itemId):
-        """ 根據品項代號查詢 
+    def queryByCustomerId(self, customerId):
+        """ 根據客戶代號查詢 
         Arguments:
-            itemId (str): 品項代號 
-        """            
-
-
-
+            customerId (str): 客戶代號
+        """
+        
+        
