@@ -30,6 +30,32 @@ class QuotationDetailRepository(Repository):
             quotationDetail (QuotationDetail): 報價單明細 
             
         """
+        
+        quotationId = quotationDetail.getQuotationId()
+        itemName = quotationDetail.getItemName()
+        quantity = quotationDetail.getQuantity()
+        unit = quotationDetail.getUnit()
+        unitPrice = quotationDetail.getUnitPrice()
+        amount = quotationDetail.getAmount()
+        remark = quotationDetail.getRemark()
+
+
+        sql = f"""
+        Insert Into Quotation Values (
+            '{quotationId}',
+            '{itemName}',
+            {quantity},
+            '{unit}',
+            {unitPrice},
+            {amount},
+            '{remark}'
+        )
+        """
+
+        connection, cursor = self._getConnection()
+
+
+        self._getLogger().info(f"TODO: Insert {quotationDetail}")
 
 
 

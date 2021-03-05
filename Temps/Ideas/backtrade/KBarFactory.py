@@ -14,7 +14,7 @@ import os
 import sys
 sys.path.append(os.getcwd())
 
-from Temps.backtrade.KBar import KBar
+from Temps.Ideas.backtrade.KBar import KBar
 
 
 class KBarFactory(object):

@@ -17,8 +17,8 @@ import sys
 sys.path.append(os.getcwd())
 import pandas
 import numpy
-from Temps.backtrade.getHistoricalData import getHis
-from Temps.backtrade.DataSeries import DataSeries
+from Temps.Ideas.backtrade.getHistoricalData import getHis
+from Temps.Ideas.backtrade.DataSeries import DataSeries
 import datetime 
 import time
 

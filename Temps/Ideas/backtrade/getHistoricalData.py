@@ -14,7 +14,7 @@ import os
 import sys
 sys.path.append(os.getcwd())
 import yfinance
-from Temps.backtrade.KBarFactory import KBarFactory
+from Temps.Ideas.backtrade.KBarFactory import KBarFactory
 import pandas
 
 def getHis(symbol):

@@ -24,6 +24,16 @@ class QuotationDetailRepositoryTest(object):
 
     def insertTest(self):
         """ 新增測試 """
+        quotationId = "Q202102230001"
+        
+        quotationDetails = [
+            QuotationDetail(quotationId, "東方龍", 2, "支", 2980, 5960, ""),
+            QuotationDetail(quotationId, "BongMate", 3, "罐", 420, 1260, ""),
+
+        ]
+
+        for quotationDetail in quotationDetails:
+            self.quotationDetailRepository.insert(quotationDetail)
 
     def deleteByIdTest(self):
         """ 根據代號刪除測試 """
